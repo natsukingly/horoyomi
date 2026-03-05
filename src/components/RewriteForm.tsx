@@ -40,7 +40,7 @@ export default function RewriteForm() {
 
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000);
+      const timeout = setTimeout(() => controller.abort(), 60000);
 
       // 1. 記事を抽出
       const extractRes = await fetch("/api/extract", {
@@ -118,11 +118,21 @@ export default function RewriteForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-lg bg-primary px-6 py-3 text-base font-medium text-white transition-colors hover:bg-primary-light disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 text-base font-medium text-white transition-colors hover:bg-primary-light disabled:cursor-not-allowed disabled:opacity-50"
         >
+          {loading && (
+            <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+          )}
           {loading ? "リライト中..." : "ほろ酔みリライト"}
         </button>
       </form>
+
+      {loading && (
+        <div className="flex flex-col items-center gap-3 py-8 text-muted">
+          <span className="inline-block h-8 w-8 animate-spin rounded-full border-3 border-primary border-t-transparent" />
+          <p className="text-sm">記事を取得してリライトしています...</p>
+        </div>
+      )}
 
       {result && (
         <div className="rounded-xl border border-border bg-surface p-6">
